@@ -1,4 +1,3 @@
-
 #ifdef S21_CAT.H
 #define S21_CAT.H
 #include <stdio.h>
@@ -11,19 +10,10 @@
 #define required_argument   1   //1
 #define optional_argument   2   //2
 
-    typedef struct 
-{
 
-    int b
-    int e
-    int n
-    int s
-    int t
-    int v
 
-}options; // наши опции
-
-void parser (int argc, char* argv[], flags *flag);
+void parser (int argc, char* argv[], options *options);
+void reader (char* argv[], options *options);
 
 
 
