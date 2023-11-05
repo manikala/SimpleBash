@@ -1,8 +1,6 @@
-#ifdef S21_CAT.H
-#define S21_CAT.H
-#include <stdio.h>
-#include <getopt.h> //для сбора параметров пришедших к нам из командной строки
-#include <stdbool.h>
+#ifdef S21_CAT_H
+#define S21_CAT_H
+
 //#include <unistd.h>
 
 
@@ -12,8 +10,8 @@
 
 
 
-void parser (int argc, char* argv[], options *options);
-void reader (char* argv[], options *options);
+
+
 
 
 
