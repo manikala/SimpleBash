@@ -12,5 +12,5 @@ cat : s21_cat.c
 clean:
 	rm -rf *.o s21_cat
 
-rebeald:
+rebeald: clean s21_cat
 	
