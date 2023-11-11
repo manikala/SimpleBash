@@ -55,13 +55,16 @@ int main (int argc, char* argv[]) {
     
 
     if (argc == 1) { //flag == 0
-        read_consol_no_arg (STDIN_FILENO);
-        
+        read_consol_no_arg (STDIN_FILENO);        
 
-    } else {//if (argc == 2)
+    } else if (argc == 2 && flag == 0){//if (argc == 2)
         read_file_no_arg (argv);
         
-    }  
+    } else {
+        reader (argv, my_options);
+    } 
+
+
     
     // else {
     //     if (my_options.b != 0) {
@@ -203,6 +206,7 @@ void reader (char* argv[], options options){
     if (file) {
 
         int current_value; // текущий символ
+        char prev_value = '\n';
         int str_count = 0;
         //int empty_count= 0; // счетчик пустых значений
         int count = 0;
@@ -264,6 +268,12 @@ void reader (char* argv[], options options){
                     }
                 }    
             }
+
+            printf("%c", current_value);
+
+
+
+
         }
         fclose(file);
     } else {
