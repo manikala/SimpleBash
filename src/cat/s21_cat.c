@@ -49,7 +49,7 @@ int main (int argc, char* argv[]) {
 
     int flag = parser (argc, argv, &my_options);
     
-    printf("\n flag = %d \n", flag);
+    //printf("\n flag = %d \n", flag);
     // printf("\n argc = %d \n", argc);
     
     
@@ -145,7 +145,7 @@ int parser (int argc, char* argv[], options *options) {
     
     int res; // результат этой функции будет складываться
     //int long_res; // для длинных аргементов будет складываться результат
-    int res_count = 0;
+    int res_count = 0;    
 
     char short_options[] = "benstvTE";
 
@@ -207,69 +207,81 @@ void reader (char* argv[], options options){
 
         int current_value; // текущий символ
         char prev_value = '\n';
+        char prev_prev_value = 0;
         int str_count = 0;
         //int empty_count= 0; // счетчик пустых значений
-        int count = 0;
+        //int count = 0;
 
         while ((current_value = fgetc(file)) != EOF ) { // fgetc – чтение одного байта из указанного потока данных
 
             if (options.b != 0) {
-                if (current_value != '\n'){
-                    if (count == 0) {
+                if (current_value != '\n' && prev_value == '\n'){
+                    //if (count == 0) {
                         printf ("%6d\t", ++str_count);
-                        count = 1;
-                    } else {
-                        count = 0;
-                    }
+                        //count = 1;
+                    //} else {
+                        //count = 0;
+                    //}
                 }    
             }
-            if (options.e != 0) {
-                if (current_value != '\n'){
+            if ((options.e != 0 && options.v != 0) || options.E != 0) {
+                if (current_value == '\n'){
                     printf("$");
                 }    
             }
-            if (options.n != 0) {
-                if (current_value != '\n'){
-                    if (count == 0) {
+            if (options.n != 0 && options.b == 0) {
+                if (prev_value == '\n'){
+                    //if (count == 0) {
                         printf ("%6d\t", ++str_count);
-                        count = 1;
-                    } else {
-                        count = 0;
-                    }
+                        //count = 1;
+                    //} else {
+                        //count = 0;
+                    //}
                 }    
             }
             if (options.s != 0) {
-                if (current_value != '\n'){
-                    if (count == 0) {
-                        printf ("%6d\t", ++str_count);
-                        count = 1;
-                    } else {
-                        count = 0;
-                    }
-                }    
-            }
-            if (options.t != 0) {
-                if (current_value != '\n'){
-                    if (count == 0) {
-                        printf ("%6d\t", ++str_count);
-                        count = 1;
-                    } else {
-                        count = 0;
-                    }
-                }    
-            }
-            if (options.v != 0) {
-                if (current_value != '\n'){
-                    if (count == 0) {
-                        printf ("%6d\t", ++str_count);
-                        count = 1;
-                    } else {
-                        count = 0;
-                    }
-                }    
-            }
+                if (current_value == '\n' && prev_value == '\n' && prev_prev_value == '\n'){
+                    //if (count == 0) {
+                        //printf ("\n");
+                        //count = 1;
 
+                    //} else {
+                        //count = 0;
+                    //}
+                    continue;
+                } 
+                // else if (current_value != '\n' && prev_value == '\n') {
+                //     printf("%c", prev_value);
+                //     prev_value = current_value;
+                //     continue;
+                // }  
+            }
+            if ((options.t != 0 && options.v != 0) || options.E != 0)  {
+                if (current_value == '\t'){
+                    //if (count == 0) {
+                        printf ("^");
+                        current_value ='I';
+                        //count = 1;
+                    //} else {
+                        //count = 0;
+                    //}
+                }    
+            }
+            // if (options.v != 0) {
+            //     if (current_value != '\n'){
+            //         if (count == 0) {
+            //             printf ("%6d\t", ++str_count);
+            //             count = 1;
+            //         } else {
+            //             count = 0;
+            //         }
+            //     }    
+            // }
+
+            
             printf("%c", current_value);
+            prev_prev_value = prev_value;
+            prev_value = current_value;
 
 
 
