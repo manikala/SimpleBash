@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <getopt.h> //для сбора параметров пришедших к нам из командной строки
-#include <stdbool.h>
+//#include <stdbool.h>
 #include <stdlib.h>
 #include <stddef.h> // определяет макросы нул 
 #include <unistd.h> // содержит множество полезных функций для работы с файловой системой, процессами и другими операционными системными вызовами
