@@ -20,7 +20,6 @@ typedef struct options {
 
 } options;  // наши опции
 
-
 struct option long_options[] = {
     {"number-nonblank", no_argument, NULL, 'b'},
     //{"show-ends", 0, NULL, 'e'},
@@ -50,7 +49,8 @@ int main(int argc, char* argv[]) {
   //  printf("\n argc = %d \n", argc);
 
   if (argc == 1) {  // flag == 0
-    read_consol_no_arg(STDIN_FILENO);
+    read_consol_no_arg(
+        STDIN_FILENO);  // // файловый дискрипт равен 1 STDIN_FILENO
 
   } else if (argc == 2 && flag == 0) {  // if (argc == 2)
     read_file_no_arg(argv);
@@ -76,7 +76,9 @@ void read_consol_no_arg(int fd) {
   // int fd = STDIN_FILENO; // файловый дискрипт равен 1 STDIN_FILENO
   int byte_read_amount;
   byte_read_amount =
-      read(fd, buf, 4096);  // функция возращает сколько мы прочитали
+      read(fd, buf,
+           4096);  // функция возращает сколько мы прочитали //пытается
+                   // прочитать count байт из файлового дескриптора fd в буфер
 
   while (byte_read_amount != 1)  // byte_read_amount != 1 //byte_read_amount > 0
   {
@@ -88,28 +90,48 @@ void read_consol_no_arg(int fd) {
 }
 
 void read_file_no_arg(char* argv[]) {
-  //(void)argc;
-  int fd =
-      open(argv[1], O_RDONLY);  // функция открывает файл. O_RDONLY - значит что
-                                // мы будем только читать из файла
-  // read_consol_no_arg (open(argv[1], O_RDONLY));
+  // 3 version
+  FILE* file = fopen(argv[1], "r");
 
-  char
-      buf[4096];  //размер страницы одной в памяти 4кб. для записи сюда из файла
-  // int fd = STDIN_FILENO; // файловый дискрипт равен 1 STDIN_FILENO
-  int byte_read_amount;
-  byte_read_amount =
-      read(fd, buf, 4096);  // функция возращает сколько мы прочитали
+  if (file) {
+    int current_value;  // текущий символ
 
-  while (byte_read_amount > 0)  // byte_read_amount != 1 //byte_read_amount > 0
-  {
-    printf("%.*s", byte_read_amount,
-           buf);  // эта комбинация убирает ошибку с нулем в конце строки и
-                  // выводится корректно
-    byte_read_amount = read(fd, buf, 4096);
+    while ((current_value = fgetc(file)) !=
+           EOF) {  // fgetc – чтение одного байта из указанного потока данных
+      printf("%c", current_value);
+    }
+    fclose(file);
+  } else {
+    printf("File is not found");
   }
 
-  // FILE *file = fopen(argv[1], "r"); // optind указатель на следующий аргв
+  //(void)argc;
+  // 1
+  // int fd =
+  //     open(argv[1], O_RDONLY);  // функция открывает файл. O_RDONLY - значит
+  //     что
+  //                               // мы будем только читать из файла
+  // // read_consol_no_arg (open(argv[1], O_RDONLY));
+
+  // char
+  //     buf[4096];  //размер страницы одной в памяти 4кб. для записи сюда из
+  //     файла
+  // // int fd = STDIN_FILENO; // файловый дискрипт равен 1 STDIN_FILENO
+  // int byte_read_amount;
+  // byte_read_amount =
+  //     read(fd, buf, 4096);  // функция возращает сколько мы прочитали
+
+  // while (byte_read_amount > 0)  // byte_read_amount != 1 //byte_read_amount >
+  // 0
+  // {
+  //   printf("%.*s", byte_read_amount,
+  //          buf);  // эта комбинация убирает ошибку с нулем в конце строки и
+  //                 // выводится корректно
+  //   byte_read_amount = read(fd, buf, 4096);
+  // }
+
+  // 2
+  //  FILE *file = fopen(argv[1], "r"); // optind указатель на следующий аргв
 
   // if (file) {
 

@@ -1,9 +1,6 @@
 #ifdef S21_CAT_H
 #define S21_CAT_H
 
-
-
-
 //#include <unistd.h>
 
 #define no_argument 0  // 0
