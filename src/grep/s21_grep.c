@@ -307,7 +307,7 @@ void result(char* argv[], options* options) {
       fprintf(stderr, "grep: %s: No such file or directory\n", argv[optind]);
     }
   }
-  regfree(&reg);
+  regfree(&reg);  // освобождает пямять для регулярных выражений
 }
 
 void flag_f(options* options) {
