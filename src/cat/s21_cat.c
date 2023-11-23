@@ -4,7 +4,7 @@
 #include <stdio.h>
 //#include <stdbool.h>
 #include <fcntl.h>  // позволяет  выполнять  различные  команды  над  открытым файловым дескриптором fd
-#include <stddef.h>  // определяет макросы нул
+// #include <stddef.h>  // определяет макросы нул
 #include <stdlib.h>
 #include <unistd.h>  // содержит множество полезных функций для работы с файловой системой, процессами и другими операционными системными вызовами
 
@@ -19,6 +19,7 @@ typedef struct options {
   int T;
 
 } options;  // наши опции
+
 
 struct option long_options[] = {
     {"number-nonblank", no_argument, NULL, 'b'},
