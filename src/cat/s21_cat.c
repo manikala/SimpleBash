@@ -84,7 +84,8 @@ void read_consol_no_arg(int fd) {
   {
     printf("%.*s", byte_read_amount,
            buf);  // эта комбинация убирает ошибку с нулем в конце строки и
-                  // выводится корректно
+                  // выводится корректно //количество символов должно быть
+                  // определено переменной byte_read_amount
     byte_read_amount = read(fd, buf, 4096);
   }
 }
