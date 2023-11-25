@@ -209,82 +209,132 @@ void reader(char* argv[], options options) {
   if (file) {
     int current_value;  // текущий символ
     char prev_value = '\n';
-    char prev_prev_value = 0;
+    //char prev_prev_value = 0;
     int str_count = 0;
-    // int empty_count= 0; // счетчик пустых значений
+    int empty_count= 0; // счетчик пустых значений
     // int count = 0;
+    
 
     while ((current_value = fgetc(file)) !=
            EOF) {  // fgetc – чтение одного байта из указанного потока данных
 
-      if (options.b != 0) {
-        if (current_value != '\n' && prev_value == '\n') {
-          // if (count == 0) {
-          printf("%6d\t", ++str_count);
-          // count = 1;
-          //} else {
-          // count = 0;
-          //}
-        }
-      }
-      if ((options.e != 0 && options.v != 0) || options.E != 0) {
-        if (current_value == '\n') {
-          printf("$");
-        }
-      }
-      if (options.n != 0 && options.b == 0) {
-        if (prev_value == '\n') {
-          // if (count == 0) {
-          printf("%6d\t", ++str_count);
-          // count = 1;
-          //} else {
-          // count = 0;
-          //}
-        }
-      }
-      if (options.s != 0) {
-        if (current_value == '\n' && prev_value == '\n' &&
-            prev_prev_value == '\n') {
-          // if (count == 0) {
-          // printf ("\n");
-          // count = 1;
 
-          //} else {
-          // count = 0;
-          //}
-          continue;
-        }
-        // else if (current_value != '\n' && prev_value == '\n') {
-        //     printf("%c", prev_value);
-        //     prev_value = current_value;
-        //     continue;
-        // }
-      }
-      if ((options.t != 0 && options.v != 0) || options.E != 0) {
-        if (current_value == '\t') {
-          // if (count == 0) {
-          printf("^");
-          current_value = 'I';
-          // count = 1;
-          //} else {
-          // count = 0;
-          //}
-        }
-      }
-      // if (options.v != 0) {
-      //     if (current_value != '\n'){
-      //         if (count == 0) {
-      //             printf ("%6d\t", ++str_count);
-      //             count = 1;
-      //         } else {
-      //             count = 0;
-      //         }
-      //     }
+
+
+
+//2
+           if (options.s != 0 && current_value == '\n' && prev_value == '\n') {
+              empty_count++;
+              if (empty_count > 1) {
+                continue;
+              }
+            } else {
+                empty_count = 0;
+            }
+            if (((options.b != 0 && current_value != '\n') || options.n != 0) && prev_value == '\n' ) {
+                printf("%6d\t", ++str_count);
+            }
+            if (options.e != 0 && current_value == '\n') {
+                printf("$");
+            }
+            if (options.t != 0 && current_value == '\t') {
+                printf("^");
+                current_value = 'I';
+            }
+            if (options.v != 0) {
+              if ((current_value >= 0 && current_value < 9) || (current_value > 10 && current_value < 32) || (current_value > 126 && current_value <= 160)) {
+                printf("^");
+                if (current_value < 126) {
+                  current_value += 64;
+                }else {
+                  current_value -= 64;
+                }
+              }
+            }     
+
+
+           printf("%c", current_value);
+      // prev_prev_value = prev_value;
+       prev_value = current_value;
+
+
+
+
+
+
+
+              //1
+      // if (options.b != 0) {
+      //   if (current_value != '\n' && prev_value == '\n') {
+      //     // if (count == 0) {
+      //     printf("%6d\t", ++str_count);
+      //     // count = 1;
+      //     //} else {
+      //     // count = 0;
+      //     //}
+      //   }
       // }
+      // if ((options.e != 0 && options.v != 0) || options.E != 0) {
+      //   if (current_value == '\n') {
+      //     printf("$");
+      //   }
+      // }
+      // if (options.n != 0 && options.b == 0) {
+      //   if (prev_value == '\n') {
+      //     // if (count == 0) {
+      //     printf("%6d\t", ++str_count);
+      //     // count = 1;
+      //     //} else {
+      //     // count = 0;
+      //     //}
+      //   }
+      // }
+      // if (options.s != 0) {
+      //   if (current_value == '\n' && prev_value == '\n' &&
+      //       prev_prev_value == '\n') {
+      //     // if (count == 0) {
+      //     // printf ("\n");
+      //     // count = 1;
 
-      printf("%c", current_value);
-      prev_prev_value = prev_value;
-      prev_value = current_value;
+      //     //} else {
+      //     // count = 0;
+      //     //}
+      //     continue;
+      //   }
+      //   // else if (current_value != '\n' && prev_value == '\n') {
+      //   //     printf("%c", prev_value);
+      //   //     prev_value = current_value;
+      //   //     continue;
+      //   // }
+      // }
+      // if ((options.t != 0 && options.v != 0) || options.E != 0) {
+      //   if (current_value == '\t') {
+      //     // if (count == 0) {
+      //     printf("^");
+      //     current_value = 'I';
+      //     // count = 1;
+      //     //} else {
+      //     // count = 0;
+      //     //}
+      //   }
+      // }
+      // // if (options.v != 0) {
+      // //     if (current_value != '\n'){
+      // //         if (count == 0) {
+      // //             printf ("%6d\t", ++str_count);
+      // //             count = 1;
+      // //         } else {
+      // //             count = 0;
+      // //         }
+      // //     }
+      // // }
+
+      // printf("%c", current_value);
+      // prev_prev_value = prev_value;
+      // prev_value = current_value;
+
+
+
     }
     fclose(file);
   } else {
