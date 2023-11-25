@@ -15,5 +15,9 @@ clean:
 rebeald: clean s21_grep
 	
 test :
-	chmod +x tests.sh
-	./tests.sh
+	chmod +x test_grep.sh
+	./test_grep.sh
+
+leak :
+	chmod +x test_leak_grep.sh
+	./test_leak_grep.sh
