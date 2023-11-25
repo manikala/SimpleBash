@@ -218,10 +218,6 @@ void reader(char* argv[], options options) {
     while ((current_value = fgetc(file)) !=
            EOF) {  // fgetc – чтение одного байта из указанного потока данных
 
-
-
-
-
 //2
            if (options.s != 0 && current_value == '\n' && prev_value == '\n') {
               empty_count++;
