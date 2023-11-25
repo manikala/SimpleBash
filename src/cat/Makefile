@@ -15,5 +15,5 @@ clean:
 rebeald: clean s21_cat
 	
 test :
-	chmod +x tests.sh
-	./tests.sh
+	chmod +x test_cat.sh
+	./test_cat.sh
