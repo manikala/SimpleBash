@@ -35,7 +35,7 @@ typedef struct options {
 
 } options;  // наши опции
 
-int parser(int argc, char* argv[], options* options);
+void parser(int argc, char* argv[], options* options);
 void result(char* argv[], options* options);
 void flag_f(options* options);
 

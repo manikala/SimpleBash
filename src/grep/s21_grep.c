@@ -16,10 +16,10 @@ int main(int argc, char* argv[]) {
   return 0;
 }
 
-int parser(int argc, char* argv[], options* options) {
+void parser(int argc, char* argv[], options* options) {
   int res = 0;
 
-  int res_count = 0;
+  // int res_count = 0;
 
   // char short_options[] = "eivclnhsfo";
   char short_options[] =
@@ -34,45 +34,45 @@ int parser(int argc, char* argv[], options* options) {
                          // указатель на него помещается в переменную optarg
         strcat(options->str_arg,
                "|");  // пайпы для разделения, именно такие нужно
-        res_count++;
+        // res_count++;
         break;
       case 'i':
         options->i = 1;
-        res_count++;
+        // res_count++;
         break;
       case 'v':
         options->v = 1;
-        res_count++;
+        // res_count++;
         break;
       case 'c':
         options->c = 1;
-        res_count++;
+        // res_count++;
         break;
       case 'l':
         options->l = 1;
-        res_count++;
+        // res_count++;
         break;
       case 'n':
         options->n = 1;
-        res_count++;
+        // res_count++;
         break;
       case 'h':
         options->h = 1;
-        res_count++;
+        // res_count++;
         break;
       case 's':
         options->s = 1;
-        res_count++;
+        // res_count++;
         break;
       case 'f':
         options->f = 1;
         strcpy(options->file_name, optarg);
         flag_f(options);
-        res_count++;
+        // res_count++;
         break;
       case 'o':
         options->o = 1;
-        res_count++;
+        // res_count++;
         break;
 
       default:
@@ -104,7 +104,7 @@ int parser(int argc, char* argv[], options* options) {
   // }
 
   // printf("%s", options->str_arg);
-  return res_count;
+  // return res_count;
 }
 
 void result(char* argv[], options* options) {
@@ -220,6 +220,7 @@ void result(char* argv[], options* options) {
         }
       }
     }
+    regfree(&reg);
 
     if (options->l && count_coincidence < 1 && options->v) {
       printf("%s\n", argv[optind]);
@@ -265,12 +266,13 @@ void result(char* argv[], options* options) {
     fclose(file);
 
   } else {
+    regfree(&reg);  // освобождает пямять для регулярных выражений
     if (!options->s) {
       fprintf(stderr, "grep: %s: No such file or directory\n", argv[optind]);
     }
   }
-  regfree(&reg);  // освобождает пямять для регулярных выражений
-  // exit(0);
+  // regfree(&reg);  // освобождает пямять для регулярных выражений
+  //  exit(0);
 }
 
 void flag_f(options* options) {

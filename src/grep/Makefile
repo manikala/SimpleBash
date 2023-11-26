@@ -18,6 +18,3 @@ test :
 	chmod +x test_grep.sh
 	./test_grep.sh
 
-leak :
-	chmod +x test_leak_grep.sh
-	./test_leak_grep.sh

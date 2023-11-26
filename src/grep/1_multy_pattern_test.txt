@@ -1,0 +1,79 @@
+#include "s21_cat.h"
+#include <getopt.h>
+
+
+int main(int argc, char *argv[]) {
+  flags options = {0};
+  if (argc > 1) {
+    if (Parser(argc, argv, &options) == 0) {
+      ReadFile(argc, argv, &options);
+    }
+  }
+
+  return 0;
+}
+
+int Parser(int argc, char *argv[], flags *options) {
+  static const char short_options[] = "+benstvTE";
+  static struct option long_options[] = {{"number-nonblank", 0, NULL, 'b'},
+                                         {"number", 0, NULL, 'n'},
+                                         {"squeeze-blank", 0, NULL, 's'},
+                                         {NULL, 0, NULL, 0}};
+  int current_flag;
+  int error = 0;
+  int option_index;
+
+  while ((current_flag = getopt_long(argc, argv, short_options, long_options,
+                                     &option_index)) != -1) {
+    switch (current_flag) {
+      case 'b':
+        options->number_non_blank = true;
+        break;
+      case 'e':
+        options->show_ends = true;
+        options->show_non_printing = true;
+        break;
+      case 'n':
+        options->number = true;
+        break;
+      case 's':
+        options->squeeze_blank = true;
+        break;
+      case 't':
+        options->show_tabs = true;
+        options->show_non_printing = true;
+        break;
+      case 'v':
+        options->show_non_printing = true;
+        break;
+      case 'E':
+        options->show_ends = true;
+        break;
+      case 'T':
+        options->show_tabs = true;
+        break;
+      default:
+        fprintf(stdout,
+                "usage: s21_cat [-benstvET] or [--number-nonblank --number "
+                "--squeeze-blank] [file...]\n");
+        error = 1;
+        break;
+    }
+  }
+  return error;
+}
+
+void ReadFile(int argc, char *argv[], flags *options) {
+  FILE *file = NULL;
+  static unsigned line_count = 0;
+  for (int i = optind; i < argc; i++) {
+    line_count = 0;
+    file = fopen(argv[i], "r");
+    if (file == NULL) {
+      fprintf(stderr, "%s: %s: No such file or directory\n", argv[0], argv[i]);
+      continue;
+    }
+    PrintFile(file, options, &line_count);
+    fclose(file);
+  }
+}
